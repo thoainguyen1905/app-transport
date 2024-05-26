@@ -11,8 +11,7 @@ class UserServices {
     };
     // Obtain shared preferences.
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response =
-        await _dioService.post(endPoint: 'staff/sign-in', data: data);
+    final response = await _dioService.post(endPoint: 'sign-in', data: data);
 
     if (response.statusCode == 200) {
       var res = response.data;
@@ -24,7 +23,7 @@ class UserServices {
 
   static Future<dynamic> getMe() async {
     final response = await _dioService.get(
-      endPoint: 'staff/me',
+      endPoint: 'me',
     );
     if (response.statusCode == 200) {
       var res = response.data;
@@ -39,8 +38,7 @@ class UserServices {
       'phone': phone,
       'password': password,
     };
-    final response =
-        await _dioService.post(endPoint: 'staff/sign-up', data: data);
+    final response = await _dioService.post(endPoint: 'sign-up', data: data);
     if (response.statusCode == 200) {
       logger.w('Đăng ký thành công');
     } else {

@@ -5,6 +5,7 @@ import 'package:app_transport/services/user_services.dart';
 import 'package:app_transport/shared/helper/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreenWidget extends StatefulWidget {
   const ProfileScreenWidget({super.key});
@@ -27,6 +28,13 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
     } catch (e) {
       logger.w(e);
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMe();
   }
 
   @override

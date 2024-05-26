@@ -7,8 +7,14 @@ import 'package:intl/intl.dart';
 
 class ContactOrderWidget extends StatefulWidget {
   ContactOrderWidget(
-      {super.key, required this.item, required this.checkStatus});
+      {super.key,
+      required this.item,
+      required this.checkStatus,
+      required this.callback,
+      required this.target});
   dynamic item = {};
+  String target = '';
+  final Function() callback;
   bool checkStatus = false;
 
   @override
@@ -20,8 +26,12 @@ class _ContactOrderWidgetState extends State<ContactOrderWidget> {
 
   void changeStatus() async {
     try {
-      var res = await TransportServices.changeStatus(
-          "id", "target", widget.item['status'] + 1);
+      var res = await TransportServices.changeStatus(widget.item['_id'],
+          widget.target, int.parse(widget.item['status']) + 1);
+      logger.w(res);
+      if (res == true) {
+        widget.callback();
+      }
     } catch (e) {
       logger.w(e);
     }
@@ -55,7 +65,7 @@ class _ContactOrderWidgetState extends State<ContactOrderWidget> {
                     fontWeight: FontWeight.w600),
               ),
               Text(
-                "${formatter.format(widget.item['price'])}đ",
+                "${formatter.format(int.parse(widget.item['price']))}đ",
                 style: const TextStyle(
                     color: Colors.green,
                     fontSize: 16,
@@ -249,23 +259,29 @@ class _ContactOrderWidgetState extends State<ContactOrderWidget> {
                       ),
                     ))
                   : Expanded(
+                      child: GestureDetector(
+                      onTap: () {
+                        changeStatus();
+                      },
                       child: Container(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1,
-                              color: const Color.fromARGB(255, 221, 219, 219))),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.forward,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text('Chuyển trạng thái')
-                        ],
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 1,
+                                color:
+                                    const Color.fromARGB(255, 221, 219, 219))),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.forward,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text('Chuyển trạng thái')
+                          ],
+                        ),
                       ),
                     )),
             ],

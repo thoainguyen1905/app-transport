@@ -49,16 +49,16 @@ class _TotalTransportWidgetState extends State<TotalTransportWidget> {
               ],
             ),
           ),
-          ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(), // Tắt tính năng cuộn
-            children: List.generate(
-                listOrder.length,
-                (index) => ContactOrderWidget(
-                      item: listOrder[index],
-                      checkStatus: true,
-                    )),
-          ),
+          // ListView(
+          //   shrinkWrap: true,
+          //   physics: const NeverScrollableScrollPhysics(), // Tắt tính năng cuộn
+          //   children: List.generate(
+          //       listOrder.length,
+          //       (index) => ContactOrderWidget(
+          //             item: listOrder[index],
+          //             checkStatus: true,
+          //           )),
+          // ),
         ],
       ),
     );

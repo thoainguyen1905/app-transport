@@ -1,3 +1,6 @@
+import 'package:app_transport/screens/home/widgets/hand_over_receive.dart';
+import 'package:app_transport/screens/home/widgets/not_receive.dart';
+import 'package:app_transport/screens/home/widgets/receive_transport.dart';
 import 'package:app_transport/shared/constant/color_constant.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +31,7 @@ class _ReceiveBodyWidgetState extends State<ReceiveBodyWidget> {
   Widget build(BuildContext context) {
     return DefaultTabController(
         initialIndex: 0,
-        length: 5,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: ColorsConstants.backgroundMain,
@@ -57,9 +60,9 @@ class _ReceiveBodyWidgetState extends State<ReceiveBodyWidget> {
           ),
           body: const TabBarView(
             children: <Widget>[
-              Text('Chưa nhận'),
-              Text('Nhận bàn giao'),
-              Text('Đã nhận')
+              NotReceiveWidget(),
+              HandOverReceiveWidget(),
+              ReceiveTransportWidget()
             ],
           ),
         ));

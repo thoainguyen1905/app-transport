@@ -1,5 +1,7 @@
+import 'package:app_transport/screens/home/widgets/confirm_delivery.dart';
 import 'package:app_transport/screens/home/widgets/persistent_transport.dart';
 import 'package:app_transport/screens/home/widgets/receive_transport.dart';
+import 'package:app_transport/screens/home/widgets/total_delivery.dart';
 import 'package:app_transport/screens/home/widgets/total_transport.dart';
 import 'package:app_transport/shared/constant/color_constant.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,7 @@ class _DetailsOrderWidgetState extends State<DetailsOrderWidget> {
   Widget build(BuildContext context) {
     return DefaultTabController(
         initialIndex: 0,
-        length: 5,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: ColorsConstants.backgroundMain,
@@ -57,8 +59,8 @@ class _DetailsOrderWidgetState extends State<DetailsOrderWidget> {
           ),
           body: const TabBarView(
             children: <Widget>[
-              ReceiveTransportWidget(),
-              TotalTransportWidget(),
+              ConfirmDeliveryWidget(),
+              TotalDeliveryWidget(),
             ],
           ),
         ));

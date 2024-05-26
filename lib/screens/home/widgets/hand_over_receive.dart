@@ -2,18 +2,18 @@ import 'package:app_transport/components/contact_order.dart';
 import 'package:app_transport/services/transport_services.dart';
 import 'package:flutter/material.dart';
 
-class ReceiveTransportWidget extends StatefulWidget {
-  const ReceiveTransportWidget({super.key});
+class HandOverReceiveWidget extends StatefulWidget {
+  const HandOverReceiveWidget({super.key});
 
   @override
-  State<ReceiveTransportWidget> createState() => _ReceiveTransportWidgetState();
+  State<HandOverReceiveWidget> createState() => _HandOverReceiveWidgetState();
 }
 
-class _ReceiveTransportWidgetState extends State<ReceiveTransportWidget> {
+class _HandOverReceiveWidgetState extends State<HandOverReceiveWidget> {
   List listOrder = [];
   void getList() async {
     try {
-      var res = await TransportServices.getListReceive("2");
+      var res = await TransportServices.getListReceive("1");
       setState(() {
         listOrder = res;
       });
@@ -55,7 +55,7 @@ class _ReceiveTransportWidgetState extends State<ReceiveTransportWidget> {
                 listOrder.length,
                 (index) => ContactOrderWidget(
                       item: listOrder[index],
-                      checkStatus: true,
+                      checkStatus: false,
                       callback: getList,
                       target: 'receive',
                     )),
