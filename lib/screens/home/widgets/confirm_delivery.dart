@@ -1,5 +1,7 @@
 import 'package:app_transport/components/contact_order.dart';
 import 'package:app_transport/services/transport_services.dart';
+import 'package:app_transport/shared/helper/logger.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmDeliveryWidget extends StatefulWidget {
@@ -11,9 +13,11 @@ class ConfirmDeliveryWidget extends StatefulWidget {
 
 class _ConfirmDeliveryWidgetState extends State<ConfirmDeliveryWidget> {
   List listOrder = [];
-  void getList() async {
+  TextEditingController querySearch = TextEditingController();
+
+  void getList({String q = ''}) async {
     try {
-      var res = await TransportServices.getListDelivery("0");
+      var res = await TransportServices.getListDelivery("0", q);
       setState(() {
         listOrder = res;
       });
@@ -34,6 +38,23 @@ class _ConfirmDeliveryWidgetState extends State<ConfirmDeliveryWidget> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            child: TextField(
+              controller: querySearch,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Tìm kiếm đơn hàng',
+              ),
+              onChanged: (String value) {
+                EasyDebounce.debounce(
+                    'my-debouncer', Duration(milliseconds: 300), () {
+                  // logger.w(value);
+                  getList(q: value);
+                });
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
             child: Row(

@@ -1,5 +1,6 @@
 import 'package:app_transport/components/contact_order.dart';
 import 'package:app_transport/services/transport_services.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 
 class HandOverReceiveWidget extends StatefulWidget {
@@ -11,9 +12,9 @@ class HandOverReceiveWidget extends StatefulWidget {
 
 class _HandOverReceiveWidgetState extends State<HandOverReceiveWidget> {
   List listOrder = [];
-  void getList() async {
+  void getList({String q = ''}) async {
     try {
-      var res = await TransportServices.getListReceive("1");
+      var res = await TransportServices.getListReceive("1", q);
       setState(() {
         listOrder = res;
       });
@@ -34,6 +35,22 @@ class _HandOverReceiveWidgetState extends State<HandOverReceiveWidget> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Tìm kiếm đơn hàng',
+              ),
+              onChanged: (String value) {
+                EasyDebounce.debounce(
+                    'my-debouncer', Duration(milliseconds: 300), () {
+                  // logger.w(value);
+                  getList(q: value);
+                });
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
             child: Row(

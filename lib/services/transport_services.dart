@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TransportServices {
   static final DioServices _dioService = DioServices();
 
-  static Future<dynamic> getListDelivery(String status) async {
-    final response =
-        await _dioService.get(endPoint: 'delivery', params: {"status": status});
+  static Future<dynamic> getListDelivery(String status, String query) async {
+    final response = await _dioService
+        .get(endPoint: 'delivery', params: {"status": status, "q": query});
     if (response.statusCode == 200) {
       var res = response.data;
       return res['data'];
@@ -16,9 +16,9 @@ class TransportServices {
     }
   }
 
-  static Future<dynamic> getListReceive(String status) async {
-    final response =
-        await _dioService.get(endPoint: 'receive', params: {"status": status});
+  static Future<dynamic> getListReceive(String status, String query) async {
+    final response = await _dioService
+        .get(endPoint: 'receive', params: {"status": status, "q": query});
     if (response.statusCode == 200) {
       var res = response.data;
       return res['data'];

@@ -1,6 +1,8 @@
+import 'package:app_transport/components/information_transport.dart';
 import 'package:app_transport/services/transport_services.dart';
 import 'package:app_transport/shared/constant/color_constant.dart';
 import 'package:app_transport/shared/helper/logger.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -57,12 +59,24 @@ class _ContactOrderWidgetState extends State<ContactOrderWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                widget.item['code'].toString(),
-                style: TextStyle(
-                    color: ColorsConstants.backgroundMain,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600),
+              GestureDetector(
+                onTap: () {
+                  Get.to(
+                      InformationTransportWidget(
+                        item: widget.item,
+                        callback: widget.callback,
+                        checkStatus: widget.checkStatus,
+                        target: widget.target,
+                      ),
+                      transition: Transition.rightToLeft);
+                },
+                child: Text(
+                  widget.item['code'].toString(),
+                  style: TextStyle(
+                      color: ColorsConstants.backgroundMain,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
               Text(
                 "${formatter.format(int.parse(widget.item['price']))}đ",
