@@ -1,5 +1,6 @@
 import 'package:app_transport/screens/home/widgets/detail_order.dart';
 import 'package:app_transport/screens/home/widgets/receive_body.dart';
+import 'package:app_transport/screens/home/widgets/refund_transport.dart';
 import 'package:app_transport/shared/helper/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -91,8 +92,41 @@ class _TransportBodyWidgetState extends State<TransportBodyWidget> {
                   ],
                 ),
               )),
-              const Expanded(
-                child: SizedBox(),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(const RefundTransportWidget(),
+                        transition: Transition.rightToLeft);
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 15, bottom: 5),
+                        padding: const EdgeInsets.all(13),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 2,
+                              color: const Color.fromARGB(255, 240, 237, 235)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            'assets/icons/refund.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      const Text("Hoàn hàng")
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
               ),
               const Expanded(child: SizedBox())
             ],

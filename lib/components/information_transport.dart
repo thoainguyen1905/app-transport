@@ -30,7 +30,9 @@ class InformationTransportWidget extends StatefulWidget {
 class _InformationTransportWidgetState
     extends State<InformationTransportWidget> {
   final formatter = NumberFormat('#,##0', 'en_US');
+  bool refund = false;
   final UserController _userController = Get.put(UserController());
+  final TextEditingController _reasonController = TextEditingController();
   dynamic postCurrent;
   List<dynamic> listHistoryCall = [];
   void changeStatus() async {
@@ -91,6 +93,19 @@ class _InformationTransportWidgetState
     }
   }
 
+  void CreateRefund() async {
+    try {
+      var res = await TransportServices.postRefund(
+          target: widget.target,
+          reason: _reasonController.text,
+          receiveInfor: refund == false ? widget.item['_id'] : "",
+          deliveryInfor: refund == true ? widget.item['_id'] : "");
+      widget.callback();
+    } catch (e) {
+      logger.w(e);
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -102,6 +117,15 @@ class _InformationTransportWidgetState
     });
     getDetail();
     getListCallTransport();
+    if (widget.target == 'delivery') {
+      setState(() {
+        refund = true;
+      });
+    } else {
+      setState(() {
+        refund = false;
+      });
+    }
   }
 
   @override
@@ -179,7 +203,7 @@ class _InformationTransportWidgetState
                       ),
                       GestureDetector(
                         onTap: () {
-                          _launchPhoneCall('0123456789');
+                          _launchPhoneCall(widget.item['phoneShop']);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -387,7 +411,34 @@ class _InformationTransportWidgetState
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Xác nhận hoàn hàng?'),
+                                content: TextField(
+                                  controller: _reasonController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Lý do hoàn hàng',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      CreateRefund();
+                                      Navigator.pop(context, 'OK');
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ));
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       padding:

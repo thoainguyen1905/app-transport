@@ -29,6 +29,38 @@ class TransportServices {
     }
   }
 
+  static Future<dynamic> getListRefund({String target = 'delivery'}) async {
+    final response =
+        await _dioService.get(endPoint: 'refund', params: {"target": target});
+    if (response.statusCode == 200) {
+      var res = response.data;
+      return res['data'];
+    } else {
+      logger.w("get user fail");
+    }
+  }
+
+  static Future<dynamic> postRefund(
+      {String reason = '',
+      String target = "delivery",
+      String receiveInfor = "",
+      String deliveryInfor = ""}) async {
+    final data = deliveryInfor == ""
+        ? {
+            "reason": reason,
+            "target": target,
+            "receiveInfor": receiveInfor,
+          }
+        : {"reason": reason, "target": target, "deliveryInfor": deliveryInfor};
+    final response = await _dioService.post(endPoint: 'refund', data: data);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      logger.w("get user fail");
+      return false;
+    }
+  }
+
   static Future<bool> changeStatus(String id, String target, int status) async {
     final data = {"status": status, 'target': target, 'id': id};
     final response =
